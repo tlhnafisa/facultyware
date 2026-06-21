@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Kontrol Dokumen FTI</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/js/basecoat.js?v=0.3.11" defer></script>
+    <script src="/assets/js/sidebar.js?v=0.3.11" defer></script>
+</head>
+<body>
+    <aside id="sidebar" class="sidebar" data-side="left" aria-hidden="false">
+        <nav aria-label="Sidebar navigation">
+            <header>
+                <a href="/admin/dashboard" class="btn-ghost p-2 h-12 w-full justify-start">
+                    <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
+                        📄
+                    </div>
+                    <div class="grid flex-1 text-left text-sm leading-tight">
+                        <span class="truncate font-medium">Dokumen Kontrol</span>
+                        <span class="truncate text-xs">FTI</span>
+                    </div>
+                </a>
+            </header>
+
+            <section class="scrollbar">
+                <div role="group" aria-labelledby="group-utama">
+                    <h3 id="group-utama">Utama</h3>
+                    <ul>
+                        <li>
+                            <a href="/admin/dashboard" aria-current="page">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                                <span>Beranda</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/dokumen">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                                <span>Dokumen</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/admin/kategori">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                                <span>Kategori</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div role="group" aria-labelledby="group-admin">
+                    <h3 id="group-admin">Administrasi</h3>
+                    <ul>
+                        <li>
+                            <a href="/admin/pengguna">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <span>Pengguna</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </section>
+
+            <footer>
+                <div class="flex items-center gap-2 p-2">
+                    <div class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground font-bold">
+                        <%= user.name.charAt(0).toUpperCase() %>
+                    </div>
+                    <div class="grid flex-1 text-left text-sm leading-tight">
+                        <span class="truncate font-medium"><%= user.name %></span>
+                        <span class="truncate text-xs"><%= user.role %></span>
+                    </div>
+                    <a href="/logout" class="btn-ghost btn-icon size-8">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    </a>
+                </div>
+            </footer>
+        </nav>
+    </aside>    <main id="content" class="p-6">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h1 class="text-2xl font-bold">Beranda</h1>
+                <p class="text-muted-foreground">Selamat datang kembali, <%= user.name %>!</p>
+            </div>
+            <div class="flex gap-2">
+                <a href="/admin/export/statistik" class="btn-outline">Export Statistik Excel</a>
+                <button type="button" onclick="document.dispatchEvent(new CustomEvent('basecoat:sidebar'))" class="btn-outline btn-icon size-8 lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+                </button>
+            </div>
+        </div>
+ 
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="card">
+                <section class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-muted-foreground uppercase tracking-wide font-medium">Total Dokumen</p>
+                        <p class="text-3xl font-bold mt-1"><%= stats.totalDokumen %></p>
+                        <p class="text-xs text-muted-foreground mt-1">Tersimpan dalam database</p>
+                    </div>
+                    <div class="text-muted-foreground">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    </div>
+                </section>
+            </div>
+            <div class="card">
+                <section class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-muted-foreground uppercase tracking-wide font-medium">Total Kategori</p>
+                        <p class="text-3xl font-bold mt-1"><%= stats.totalKategori %></p>
+                        <p class="text-xs text-muted-foreground mt-1">Kategori terdaftar</p>
+                    </div>
+                    <div class="text-muted-foreground">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    </div>
+                </section>
+            </div>
+            <div class="card">
+                <section class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm text-muted-foreground uppercase tracking-wide font-medium">Total Pengguna</p>
+                        <p class="text-3xl font-bold mt-1"><%= stats.totalUsers %></p>
+                        <p class="text-xs text-muted-foreground mt-1">Pengguna terdaftar</p>
+                    </div>
+                    <div class="text-muted-foreground">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                </section>
+            </div>
+        </div>
+ 
+        <!-- Tabel Dokumen Terbaru -->
+        <div class="card">
+            <header>
+                <h2>Dokumen Terbaru</h2>
+                <a href="/admin/dokumen" class="btn-outline btn-sm">+ Tambah Dokumen</a>
+            </header>
+            <section>
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b">
+                            <th class="text-left py-3 px-4 font-medium text-muted-foreground">Nama Dokumen</th>
+                            <th class="text-left py-3 px-4 font-medium text-muted-foreground">Kategori</th>
+                            <th class="text-left py-3 px-4 font-medium text-muted-foreground">Versi</th>
+                            <th class="text-left py-3 px-4 font-medium text-muted-foreground">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (recentDocuments.length === 0) { %>
+                            <tr>
+                                <td colspan="4" class="text-center py-8 text-muted-foreground">
+                                    Belum ada dokumen. Tambahkan dokumen pertama!
+                                </td>
+                            </tr>
+                        <% } else { %>
+                            <% recentDocuments.forEach(d => { %>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4 font-medium"><%= d.name %></td>
+                                    <td class="py-3 px-4"><%= d.kategori_name || '-' %></td>
+                                    <td class="py-3 px-4">v<%= d.rev_no || 1 %></td>
+                                    <td class="py-3 px-4">
+                                        <% if (d.published === 1) { %>
+                                            <span style="background: #f0fdf4; color: #15803d; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;">Publish</span>
+                                        <% } else { %>
+                                            <span style="background: #fef9c3; color: #a16207; padding: 2px 10px; border-radius: 20px; font-size: 11px; font-weight: 600;">Draft</span>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } %>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </main>
+
+    <div id="toaster" class="toaster"></div>
+</body>
+</html>
