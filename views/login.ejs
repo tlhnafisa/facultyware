@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
   <head>
     <script>
       (() => {
@@ -50,15 +50,15 @@
     </script>
 
     <meta charset="utf-8" />
-    <meta http-equiv="Content-Language" content="en" />
+    <meta http-equiv="Content-Language" content="id" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Basecoat</title>
+    <title><%= title %></title>
     <meta
       name="description"
       content="A components library built with Tailwind CSS that works with any web stack."
     />
-    <meta name="title" content="Basecoat" />
+    <meta name="title" content="<%= title %>" />
     <meta
       name="keywords"
       content="components,component library,component system,UI,UI kit,shadcn,shadcn/ui,Tailwind CSS,Tailwind,CSS,HTML,Jinja,Nunjucks,JS,JavaScript,vanilla JS,vanilla JavaScript"
@@ -127,9 +127,9 @@
                   class="group/field-group @container/field-group flex w-full flex-col gap-7 data-[slot=checkbox-group]:gap-3 [&amp;&gt;[data-slot=field-group]]:gap-4"
                 >
                   <div class="flex flex-col items-center gap-2 text-center">
-                    <h1 class="text-2xl font-bold">Welcome back</h1>
+                    <h1 class="text-2xl font-bold">Selamat Datang Kembali</h1>
                     <p class="text-balance text-muted-foreground">
-                      Login to your account
+                      Masuk ke akun Anda
                     </p>
                   </div>
                   
@@ -149,7 +149,7 @@
                       data-slot="field-label"
                       class="items-center text-sm font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[&gt;[data-slot=field]]:w-full has-[&gt;[data-slot=field]]:flex-col has-[&gt;[data-slot=field]]:rounded-md has-[&gt;[data-slot=field]]:border [&amp;&gt;*]:data-[slot=field]:p-4 has-data-[state=checked]:border-primary has-data-[state=checked]:bg-primary/5 dark:has-data-[state=checked]:bg-primary/10"
                       for="username"
-                      >Username</label
+                      >Nama Pengguna</label
                     ><input
                       type="text"
                       name="username"
@@ -172,10 +172,6 @@
                         class="items-center text-sm font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-[&gt;[data-slot=field]]:w-full has-[&gt;[data-slot=field]]:flex-col has-[&gt;[data-slot=field]]:rounded-md has-[&gt;[data-slot=field]]:border [&amp;&gt;*]:data-[slot=field]:p-4 has-data-[state=checked]:border-primary has-data-[state=checked]:bg-primary/5 dark:has-data-[state=checked]:bg-primary/10"
                         for="password"
                         >Password</label
-                      ><a
-                        href="#"
-                        class="ml-auto text-sm underline-offset-2 hover:underline"
-                        >Forgot your password?</a
                       >
                     </div>
                     <input
@@ -200,16 +196,11 @@
                       class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*='size-'])]:size-4 bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3"
                       type="submit"
                     >
-                      Login
+                      Masuk
                     </button>
                   </div>
 
-                  <p
-                    data-slot="field-description"
-                    class="text-sm leading-normal font-normal text-muted-foreground group-has-[[data-orientation=horizontal]]/field:text-balance last:mt-0 nth-last-2:-mt-1 [[data-variant=legend]+&amp;]:-mt-1.5 [&amp;&gt;a]:underline [&amp;&gt;a]:underline-offset-4 [&amp;&gt;a:hover]:text-primary text-center"
-                  >
-                    Don't have an account? <a href="#">Sign up</a>
-                  </p>
+
                 </div>
               </form>
               <div class="relative hidden bg-muted md:block">
@@ -225,9 +216,9 @@
             data-slot="field-description"
             class="text-sm leading-normal font-normal text-muted-foreground group-has-[[data-orientation=horizontal]]/field:text-balance last:mt-0 nth-last-2:-mt-1 [[data-variant=legend]+&amp;]:-mt-1.5 [&amp;&gt;a]:underline [&amp;&gt;a]:underline-offset-4 [&amp;&gt;a:hover]:text-primary px-6 text-center"
           >
-            By clicking continue, you agree to our
-            <a href="#">Terms of Service</a>
-            <!-- -->and <a href="#">Privacy Policy</a>.
+            Dengan mengklik masuk, Anda menyetujui
+            <a href="#">Ketentuan Layanan</a>
+            <!-- -->dan <a href="#">Kebijakan Privasi</a> kami.
           </p>
         </div>
       </div>
