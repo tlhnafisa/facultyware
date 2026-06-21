@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Kontrol Dokumen FTI</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/js/basecoat.js?v=0.3.11" defer></script>
+    <script src="/assets/js/sidebar.js?v=0.3.11" defer></script>
+    <style>
+        .alert-success-custom {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            color: #15803d;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+        .alert-danger-custom {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+        .badge-success-custom {
+            background: #f0fdf4;
+            color: #15803d;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .badge-warning-custom {
+            background: #fef9c3;
+            color: #a16207;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .badge-gray-custom {
+            background: #f1f5f9;
+            color: #64748b;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <aside id="sidebar" class="sidebar" data-side="left" aria-hidden="false">
+        <nav aria-label="Sidebar navigation">
+            <header>
+                <a href="/admin/dashboard" class="btn-ghost p-2 h-12 w-full justify-start">
+                    <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">📄</div>
+                    <div class="grid flex-1 text-left text-sm leading-tight">
+                        <span class="truncate font-medium">Dokumen Kontrol</span>
+                        <span class="truncate text-xs">FTI</span>
+                    </div>
+                </a>
+            </header>
+            <section class="scrollbar">
+    <div role="group" aria-labelledby="group-utama">
+        <h3 id="group-utama">Utama</h3>
+        <ul>
+            <li>
+                <a href="/admin/dashboard">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                    <span>Beranda</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/dokumen" aria-current="page">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span>Dokumen</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/kategori">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    <span>Kategori</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div role="group" aria-labelledby="group-admin">
+        <h3 id="group-admin">Administrasi</h3>
+        <ul>
+            <li>
+                <a href="/admin/pengguna">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Pengguna</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+            <footer>
+                <div class="flex items-center gap-2 p-2">
+                    <div class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground font-bold"><%= user.name.charAt(0).toUpperCase() %></div>
+                    <div class="grid flex-1 text-left text-sm leading-tight">
+                        <span class="truncate font-medium"><%= user.name %></span>
+                        <span class="truncate text-xs"><%= user.role %></span>
+                    </div>
+                    <a href="/logout" class="btn-ghost btn-icon size-8"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></a>
+                </div>
+            </footer>
+        </nav>
+    </aside>
+
+    <main id="content" class="p-6">
+        <div class="mb-6">
+            <a href="/admin/dokumen" class="text-sm text-muted-foreground hover:underline">← Kembali ke Dokumen</a>
+            <h1 class="text-2xl font-bold mt-2"><%= dokumen.name %></h1>
+        </div>
+
+        <% if (success) { %>
+            <div class="mb-4 alert-success-custom"><%= success %></div>
+        <% } %>
+        <% if (error) { %>
+            <div class="mb-4 alert-danger-custom"><%= error %></div>
+        <% } %>
+
+        <!-- Info Dokumen -->
+        <div class="card mb-6">
+            <header>
+                <h2>Informasi Dokumen</h2>
+                <div class="flex gap-2">
+                    <a href="/admin/dokumen/<%= dokumen.id %>/edit" class="btn-outline btn-sm">Edit</a>
+                    <form action="/admin/dokumen/<%= dokumen.id %>/publish" method="POST">
+                        <button type="submit" class="btn-outline btn-sm">
+                            <%= dokumen.published === 1 ? 'Nonaktifkan' : 'Publish' %>
+                        </button>
+                    </form>
+                </div>
+            </header>
+            <section>
+                <table class="w-full text-sm">
+                    <tr class="border-b"><td class="py-2 pr-4 font-medium text-muted-foreground w-40">Nama</td><td class="py-2"><%= dokumen.name %></td></tr>
+                    <tr class="border-b"><td class="py-2 pr-4 font-medium text-muted-foreground">Kategori</td><td class="py-2"><%= dokumen.kategori_name || '-' %></td></tr>
+                    <tr class="border-b"><td class="py-2 pr-4 font-medium text-muted-foreground">No. Dokumen</td><td class="py-2"><%= dokumen.doc_no || '-' %></td></tr>
+                    <tr class="border-b"><td class="py-2 pr-4 font-medium text-muted-foreground">Ruang Lingkup</td><td class="py-2"><%= dokumen.scope || '-' %></td></tr>
+                    <tr class="border-b"><td class="py-2 pr-4 font-medium text-muted-foreground">Status</td>
+                        <td class="py-2">
+                            <% if (dokumen.published === 1) { %>
+                                <span class="badge-success-custom">Publish</span>
+                            <% } else { %>
+                                <span class="badge-warning-custom">Draft</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                    <tr><td class="py-2 pr-4 font-medium text-muted-foreground">Dibuat oleh</td><td class="py-2"><%= dokumen.created_by_name || '-' %></td></tr>
+                </table>
+            </section>
+        </div>
+
+        <!-- Riwayat Versi -->
+        <div class="card">
+            <header>
+                <h2>Riwayat Versi</h2>
+            </header>
+            <section>
+                <!-- Upload Versi Baru -->
+                <form action="/admin/dokumen/<%= dokumen.id %>/versi" method="POST" enctype="multipart/form-data" class="flex gap-2 mb-4 pb-4 border-b">
+                    <input type="file" name="file" class="input flex-1" required>
+                    <button type="submit" class="btn">Unggah Versi Baru</button>
+                </form>
+
+                <!-- List Versi -->
+                <% if (revisi.length === 0) { %>
+                    <p class="text-center py-4 text-muted-foreground">Belum ada file yang diunggah.</p>
+                <% } else { %>
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left py-3 px-4 font-medium text-muted-foreground">Versi</th>
+                                <th class="text-left py-3 px-4 font-medium text-muted-foreground">Tanggal</th>
+                                <th class="text-left py-3 px-4 font-medium text-muted-foreground">Status</th>
+                                <th class="text-left py-3 px-4 font-medium text-muted-foreground">File</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% revisi.forEach(r => { %>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4 font-medium">v<%= r.rev_no %></td>
+                                    <td class="py-3 px-4"><%= r.doc_date %>/<%= r.doc_month %>/<%= r.doc_year %></td>
+                                    <td class="py-3 px-4">
+                                        <% if (r.active === 1) { %>
+                                            <span class="badge-success-custom">Aktif</span>
+                                        <% } else { %>
+                                            <span class="badge-gray-custom">Lama</span>
+                                        <% } %>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <% if (r.uploaded_file) { %>
+                                            <a href="/uploads/<%= r.uploaded_file %>" target="_blank" class="btn-outline btn-sm">Unduh</a>
+                                        <% } else { %>
+                                            <span class="text-muted-foreground">-</span>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                <% } %>
+            </section>
+        </div>
+    </main>
+    <div id="toaster" class="toaster"></div>
+</body>
+</html>
