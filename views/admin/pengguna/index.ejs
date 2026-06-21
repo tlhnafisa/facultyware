@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Kontrol Dokumen FTI</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/js/basecoat.js?v=0.3.11" defer></script>
+    <script src="/assets/js/sidebar.js?v=0.3.11" defer></script>
+    <style>
+        .badge-admin-custom {
+            background: #fef2f2;
+            color: #b91c1c;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .badge-user-custom {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <aside id="sidebar" class="sidebar" data-side="left" aria-hidden="false">
+        <nav aria-label="Sidebar navigation">
+            <header>
+                <a href="/admin/dashboard" class="btn-ghost p-2 h-12 w-full justify-start">
+                    <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">📄</div>
+                    <div class="grid flex-1 text-left text-sm leading-tight">
+                        <span class="truncate font-medium">Dokumen Kontrol</span>
+                        <span class="truncate text-xs">FTI</span>
+                    </div>
+                </a>
+            </header>
+            <section class="scrollbar">
+                <div role="group" aria-labelledby="group-utama">
+                    <h3 id="group-utama">Utama</h3>
+                    <ul>
+                        <li><a href="/admin/dashboard"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg><span>Beranda</span></a></li>
+                        <li><a href="/admin/dokumen"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>Dokumen</span></a></li>
+                        <li><a href="/admin/kategori"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span>Kategori</span></a></li>
+                    </ul>
+                </div>
+                <div role="group" aria-labelledby="group-admin">
+                    <h3 id="group-admin">Administrasi</h3>
+                    <ul>
+                        <li><a href="/admin/pengguna" aria-current="page"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Pengguna</span></a></li>
+                    </ul>
+                </div>
+            </section>
+            <footer>
+                <div class="flex items-center gap-2 p-2">
+                    <div class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground font-bold"><%= user.name.charAt(0).toUpperCase() %></div>
+                    <div class="grid flex-1 text-left text-sm leading-tight">
+                        <span class="truncate font-medium"><%= user.name %></span>
+                        <span class="truncate text-xs"><%= user.role %></span>
+                    </div>
+                    <a href="/logout" class="btn-ghost btn-icon size-8"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></a>
+                </div>
+            </footer>
+        </nav>
+    </aside>
+
+    <main id="content" class="p-6">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h1 class="text-2xl font-bold">Kelola Pengguna</h1>
+                <p class="text-muted-foreground">Manajemen pengguna sistem Kontrol Dokumen FTI</p>
+            </div>
+            <a href="/admin/pengguna/tambah" class="btn">+ Tambah Pengguna</a>
+        </div>
+
+        <div class="card">
+            <section>
+                <table class="w-full text-sm">
+                    <thead>
+                        <tr class="border-b">
+                            <th class="text-left py-3 px-4 font-medium text-muted-foreground">No</th>
+                            <th class="text-left py-3 px-4 font-medium text-muted-foreground">Nama Pengguna</th>
+                            <th class="text-left py-3 px-4 font-medium text-muted-foreground">NIM / NIP</th>
+                            <th class="text-left py-3 px-4 font-medium text-muted-foreground">Email / Nama Pengguna</th>
+                            <th class="text-left py-3 px-4 font-medium text-muted-foreground">Peran</th>
+                            <th class="text-left py-3 px-4 font-medium text-muted-foreground">Terdaftar</th>
+                            <th class="text-left py-3 px-4 font-medium text-muted-foreground">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (pengguna.length === 0) { %>
+                            <tr>
+                                <td colspan="7" class="text-center py-8 text-muted-foreground">Belum ada pengguna terdaftar.</td>
+                            </tr>
+                        <% } else { %>
+                            <% pengguna.forEach((p, i) => { %>
+                                <tr class="border-b">
+                                    <td class="py-3 px-4"><%= i + 1 %></td>
+                                    <td class="py-3 px-4 font-medium"><%= p.name %></td>
+                                    <td class="py-3 px-4"><%= p.nim_nip || '-' %></td>
+                                    <td class="py-3 px-4"><%= p.email %></td>
+                                    <td class="py-3 px-4">
+                                        <span class="<%= p.role_name === 'admin' ? 'badge-admin-custom' : 'badge-user-custom' %>">
+                                            <%= p.role_name ? p.role_name.toUpperCase() : 'USER' %>
+                                        </span>
+                                    </td>
+                                    <td class="py-3 px-4 text-muted-foreground"><%= new Date(p.created_at).toLocaleDateString('id-ID') %></td>
+                                    <td class="py-3 px-4">
+                                        <div class="flex gap-2">
+                                            <a href="/admin/pengguna/edit/<%= p.id %>" class="btn-sm btn-outline">Edit</a>
+                                            <% if (p.id !== user.id) { %>
+                                                <form action="/admin/pengguna/hapus/<%= p.id %>" method="POST" onsubmit="return confirm('Yakin ingin menghapus pengguna ini?')">
+                                                    <button type="submit" class="btn-sm btn-destructive">Hapus</button>
+                                                </form>
+                                            <% } %>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } %>
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </main>
+    <div id="toaster" class="toaster"></div>
+</body>
+</html>
