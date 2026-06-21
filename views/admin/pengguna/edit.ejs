@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Kontrol Dokumen FTI</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/js/basecoat.js?v=0.3.11" defer></script>
+    <script src="/assets/js/sidebar.js?v=0.3.11" defer></script>
+    <style>
+        .alert-danger-custom {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <aside id="sidebar" class="sidebar" data-side="left" aria-hidden="false">
+        <nav aria-label="Sidebar navigation">
+            <header>
+                <a href="/admin/dashboard" class="btn-ghost p-2 h-12 w-full justify-start">
+                    <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">📄</div>
+                    <div class="grid flex-1 text-left text-sm leading-tight">
+                        <span class="truncate font-medium">Dokumen Kontrol</span>
+                        <span class="truncate text-xs">FTI</span>
+                    </div>
+                </a>
+            </header>
+            <section class="scrollbar">
+                <div role="group" aria-labelledby="group-utama">
+                    <h3 id="group-utama">Utama</h3>
+                    <ul>
+                        <li><a href="/admin/dashboard"><span>Beranda</span></a></li>
+                        <li><a href="/admin/dokumen"><span>Dokumen</span></a></li>
+                        <li><a href="/admin/kategori"><span>Kategori</span></a></li>
+                    </ul>
+                </div>
+                <div role="group" aria-labelledby="group-admin">
+                    <h3 id="group-admin">Administrasi</h3>
+                    <ul>
+                        <li><a href="/admin/pengguna" aria-current="page"><span>Pengguna</span></a></li>
+                    </ul>
+                </div>
+            </section>
+            <footer>
+                <div class="flex items-center gap-2 p-2">
+                    <div class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground font-bold"><%= user.name.charAt(0).toUpperCase() %></div>
+                    <div class="grid flex-1 text-left text-sm leading-tight">
+                        <span class="truncate font-medium"><%= user.name %></span>
+                        <span class="truncate text-xs"><%= user.role %></span>
+                    </div>
+                    <a href="/logout" class="btn-ghost btn-icon size-8"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></a>
+                </div>
+            </footer>
+        </nav>
+    </aside>
+
+    <main id="content" class="p-6">
+        <div class="mb-6">
+            <a href="/admin/pengguna" class="text-sm text-muted-foreground hover:underline">← Kembali ke Pengguna</a>
+            <h1 class="text-2xl font-bold mt-2">Edit Pengguna</h1>
+        </div>
+
+        <div class="card max-w-lg">
+            <section>
+                <% if (error) { %>
+                    <div class="mb-4 alert-danger-custom">
+                        <%= error %>
+                    </div>
+                <% } %>
+                <form action="/admin/pengguna/edit/<%= editUser.id %>" method="POST" class="grid gap-4">
+                    <div class="grid gap-2">
+                        <label class="text-sm font-medium">Nama Lengkap <span class="text-destructive">*</span></label>
+                        <input type="text" name="name" class="input" value="<%= editUser.name %>" required>
+                    </div>
+                    <div class="grid gap-2">
+                        <label class="text-sm font-medium">NIM / NIP (Opsional)</label>
+                        <input type="text" name="nim_nip" class="input" value="<%= editUser.nim_nip || '' %>" placeholder="Contoh: 2411522007 atau 1980...">
+                    </div>
+                    <div class="grid gap-2">
+                        <label class="text-sm font-medium">Email / Nama Pengguna <span class="text-destructive">*</span></label>
+                        <input type="email" name="email" class="input" value="<%= editUser.email %>" required>
+                    </div>
+                    <div class="grid gap-2">
+                        <label class="text-sm font-medium">Password Baru (Opsional)</label>
+                        <input type="password" name="password" class="input" placeholder="Biarkan kosong jika tidak diubah">
+                    </div>
+                    <div class="grid gap-2">
+                        <label class="text-sm font-medium">Peran / Hak Akses <span class="text-destructive">*</span></label>
+                        <select name="role_id" class="input" required>
+                            <option value="">-- Pilih Peran --</option>
+                            <% roles.forEach(r => { %>
+                                <option value="<%= r.id %>" <%= editUser.role_id === r.id ? 'selected' : '' %>><%= r.name.toUpperCase() %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="flex gap-2 justify-end">
+                        <a href="/admin/pengguna" class="btn-outline">Batal</a>
+                        <button type="submit" class="btn">Simpan</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+    <div id="toaster" class="toaster"></div>
+</body>
+</html>
