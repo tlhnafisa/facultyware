@@ -2,32 +2,27 @@ const bcrypt = require("bcryptjs");
 const db = require("../lib/db");
 
 const index = (req, res) => {
-  res.render("index", { title: "Express" });
-};
-
-const home = (req, res) => {
-  res.render("home", { title: "Home", user: req.session.username });
+  res.redirect("/login");
 };
 
 const loginPage = (req, res) => {
   if (req.session.userId) {
     return res.redirect("/home");
   }
-  res.render("login", { title: "Login", error: null });
+  res.render("login", { title: "Login - Kontrol Dokumen FTI", error: null });
 };
 
 const login = async (req, res, next) => {
   const { username, password } = req.body;
 
   try {
-    const [rows] = await db.query("SELECT * FROM users WHERE username = ?", [
-      username,
-    ]);
+    // Cari user berdasarkan email
+    const [rows] = await db.query("SELECT * FROM users WHERE email = ?", [username]);
 
     if (rows.length === 0) {
       return res.render("login", {
         title: "Login",
-        error: "Invalid username or password",
+        error: "Email atau password salah!",
       });
     }
 
@@ -37,15 +32,32 @@ const login = async (req, res, next) => {
     if (!isMatch) {
       return res.render("login", {
         title: "Login",
-        error: "Invalid username or password",
+        error: "Email atau password salah!",
       });
     }
 
-    // Set session
-    req.session.userId = user.id;
-    req.session.username = user.username;
+    // Cek role user dari tabel RBAC
+   const [roleRows] = await db.query(`
+    SELECT r.name as role_name 
+    FROM roles r
+    JOIN model_has_roles mhr ON r.id = mhr.role_id
+    WHERE mhr.model_id = ?
+`, [user.id]);
+    const role = roleRows.length > 0 ? roleRows[0].role_name : 'user';
 
-    res.redirect("/home");
+    // Simpan data ke session
+    req.session.userId = user.id;
+    req.session.userName = user.name;
+    req.session.userEmail = user.email;
+    req.session.userRole = role;
+
+    // Redirect berdasarkan role
+    if (role === 'admin') {
+      return res.redirect("/admin/dashboard");
+    } else {
+      return res.redirect("/home");
+    }
+
   } catch (err) {
     next(err);
   }
@@ -62,7 +74,6 @@ const logout = (req, res, next) => {
 
 module.exports = {
   index,
-  home,
   loginPage,
   login,
   logout
