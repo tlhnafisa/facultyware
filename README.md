@@ -8,7 +8,7 @@ Dengan penerapan sistem ini, diharapkan proses penyimpanan, pengelolaan, dan dis
 
 ---
 
-## 🚀 Fitur Utama
+## Fitur Utama
 
 - **Autentikasi & Otorisasi**: Login aman untuk pengguna dengan pembatasan hak akses berbasis Role (RBAC: Admin, Staff, Student, dll.).
 - **Manajemen Kategori (Admin)**: CRUD (Create, Read, Update, Delete) kategori dokumen.
@@ -22,18 +22,17 @@ Dengan penerapan sistem ini, diharapkan proses penyimpanan, pengelolaan, dan dis
 
 ---
 
-## 🛠️ Spesifikasi Teknologi
+## Spesifikasi Teknologi
 
-Setiap kelompok wajib menggunakan stack berikut:
-- ● **Backend** : ExpressJS (Node.js)
-- ● **Database** : MySQL
-- ● **Frontend UI** : Basecoat UI (untuk layout dan styling)
-- ● **Version Control** : Git (repository di GitHub)
-- ● **Interactivity & Testing** : HTMX (untuk dynamic updates & navigasi cepat) & Playwright (untuk End-to-End Testing)
+- **Backend** : ExpressJS (Node.js)
+- **Database** : MySQL
+- **Frontend UI** : Basecoat UI (untuk layout dan styling)
+- **Version Control** : Git (repository di GitHub)
+- **Interactivity & Testing** : HTMX (untuk dynamic updates & navigasi cepat) & Playwright (untuk End-to-End Testing)
 
 ---
 
-## 💻 Instalasi dan Cara Menjalankan
+## Instalasi dan Cara Menjalankan
 
 ### 1. Prasyarat
 Pastikan Anda sudah menginstal:
@@ -88,7 +87,7 @@ npx playwright test
 
 ---
 
-## 👥 Pembagian Tugas Anggota
+## Pembagian Tugas Anggota
 
 Berikut adalah pembagian tugas dan kontribusi pengerjaan fitur untuk masing-masing anggota tim:
 
