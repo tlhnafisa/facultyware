@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Kontrol Dokumen FTI</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/js/basecoat.js?v=0.3.11" defer></script>
+    <script src="/assets/js/sidebar.js?v=0.3.11" defer></script>
+    <style>
+        .alert-danger-custom {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            padding: 12px 16px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <aside id="sidebar" class="sidebar" data-side="left" aria-hidden="false">
+        <nav aria-label="Sidebar navigation">
+            <header>
+                <a href="/admin/dashboard" class="btn-ghost p-2 h-12 w-full justify-start">
+                    <div class="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">📄</div>
+                    <div class="grid flex-1 text-left text-sm leading-tight">
+                        <span class="truncate font-medium">Dokumen Kontrol</span>
+                        <span class="truncate text-xs">FTI</span>
+                    </div>
+                </a>
+            </header>
+            <section class="scrollbar">
+    <div role="group" aria-labelledby="group-utama">
+        <h3 id="group-utama">Utama</h3>
+        <ul>
+            <li>
+                <a href="/admin/dashboard">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+                    <span>Beranda</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/dokumen" aria-current="page">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span>Dokumen</span>
+                </a>
+            </li>
+            <li>
+                <a href="/admin/kategori">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    <span>Kategori</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div role="group" aria-labelledby="group-admin">
+        <h3 id="group-admin">Administrasi</h3>
+        <ul>
+            <li>
+                <a href="/admin/pengguna">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>Pengguna</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</section>
+            <footer>
+                <div class="flex items-center gap-2 p-2">
+                    <div class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground font-bold"><%= user.name.charAt(0).toUpperCase() %></div>
+                    <div class="grid flex-1 text-left text-sm leading-tight">
+                        <span class="truncate font-medium"><%= user.name %></span>
+                        <span class="truncate text-xs"><%= user.role %></span>
+                    </div>
+                    <a href="/logout" class="btn-ghost btn-icon size-8"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></a>
+                </div>
+            </footer>
+        </nav>
+    </aside>
+
+    <main id="content" class="p-6">
+        <div class="mb-6">
+            <a href="/admin/dokumen" class="text-sm text-muted-foreground hover:underline">← Kembali ke Dokumen</a>
+            <h1 class="text-2xl font-bold mt-2">Tambah Dokumen</h1>
+        </div>
+
+        <div class="card max-w-2xl">
+            <section>
+                <% if (error) { %>
+                    <div class="mb-4 alert-danger-custom"><%= error %></div>
+                <% } %>
+                <form action="/admin/dokumen/tambah" method="POST" enctype="multipart/form-data" class="grid gap-4">
+                    <div class="grid gap-2">
+                        <label class="text-sm font-medium">Nama Dokumen <span class="text-destructive">*</span></label>
+                        <input type="text" name="name" class="input" placeholder="Nama dokumen" required>
+                    </div>
+                    <div class="grid gap-2">
+                        <label class="text-sm font-medium">Kategori</label>
+                        <select name="document_type_id" class="input">
+                            <option value="">-- Pilih Kategori --</option>
+                            <% kategori.forEach(k => { %>
+                                <option value="<%= k.id %>"><%= k.name %></option>
+                            <% }) %>
+                        </select>
+                    </div>
+                    <div class="grid gap-2">
+                        <label class="text-sm font-medium">Nomor Dokumen</label>
+                        <input type="text" name="doc_no" class="input" placeholder="Contoh: SOP/FTI/001">
+                    </div>
+                    <div class="grid gap-2">
+                        <label class="text-sm font-medium">Ruang Lingkup</label>
+                        <select name="scope" class="input">
+                            <option value="">-- Pilih Ruang Lingkup --</option>
+                            <option value="Seluruh FTI">Seluruh FTI</option>
+                            <option value="Mahasiswa">Mahasiswa</option>
+                            <option value="Pegawai/Dosen">Pegawai/Dosen</option>
+                        </select>
+                    </div>
+                    <div class="grid gap-2">
+                        <label class="text-sm font-medium">Unggah File (Opsional)</label>
+                        <input type="file" name="file" class="input">
+                        <p class="text-xs text-muted-foreground">Semua format file diperbolehkan</p>
+                    </div>
+                    <div class="flex gap-2 justify-end">
+                        <a href="/admin/dokumen" class="btn-outline">Batal</a>
+                        <button type="submit" class="btn">Simpan</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+    <div id="toaster" class="toaster"></div>
+</body>
+</html>
