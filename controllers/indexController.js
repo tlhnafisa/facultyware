@@ -7,6 +7,9 @@ const index = (req, res) => {
 
 const loginPage = (req, res) => {
   if (req.session.userId) {
+    if (req.session.userRole === 'admin') {
+      return res.redirect("/admin/dashboard");
+    }
     return res.redirect("/home");
   }
   res.render("login", { title: "Login - Kontrol Dokumen FTI", error: null });
@@ -44,6 +47,7 @@ const login = async (req, res, next) => {
     WHERE mhr.model_id = ?
 `, [user.id]);
     const role = roleRows.length > 0 ? roleRows[0].role_name : 'user';
+    console.log(`[DEBUG LOGIN] Email: ${user.email}, ID: ${user.id}, RoleRows:`, roleRows, `, Computed Role: ${role}`);
 
     // Simpan data ke session
     req.session.userId = user.id;
@@ -52,11 +56,16 @@ const login = async (req, res, next) => {
     req.session.userRole = role;
 
     // Redirect berdasarkan role
-    if (role === 'admin') {
-      return res.redirect("/admin/dashboard");
-    } else {
-      return res.redirect("/home");
-    }
+    req.session.save((err) => {
+      if (err) {
+        return next(err);
+      }
+      if (role === 'admin') {
+        return res.redirect("/admin/dashboard");
+      } else {
+        return res.redirect("/home");
+      }
+    });
 
   } catch (err) {
     next(err);
