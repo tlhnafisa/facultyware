@@ -5,6 +5,7 @@ const apiController = require('../controllers/apiController');
 
 // API Kategori (Admin)
 router.get('/api/admin/kategori', isAuthenticated, apiController.adminKategori);
+router.post('/api/admin/kategori', isAuthenticated, apiController.createKategori);
 
 // API Dokumen (Admin)
 router.get('/api/admin/dokumen', isAuthenticated, apiController.adminDokumen);

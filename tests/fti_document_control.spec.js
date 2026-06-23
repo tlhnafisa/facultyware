@@ -572,3 +572,113 @@ test.describe.serial('E. Export Data (Admin)', () => {
   });
 });
 
+// ==========================================
+// F. REST API JSON
+// ==========================================
+test.describe.serial('F. REST API JSON', () => {
+  test('TC-31: GET kategori dokumen', async ({ page, context }) => {
+    // Login as Admin
+    await context.clearCookies();
+    await page.goto('http://localhost:3000/login');
+    await page.locator('input[name="username"]').fill('admin@fti.ac.id');
+    await page.locator('input[name="password"]').fill('password');
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*dashboard/);
+
+    // Fetch API
+    const response = await page.request.get('http://localhost:3000/api/admin/kategori');
+    expect(response.status()).toBe(200);
+    const json = await response.json();
+    expect(json.success).toBe(true);
+    expect(Array.isArray(json.data)).toBe(true);
+  });
+
+  test('TC-32: POST kategori dokumen', async ({ page, context }) => {
+    // Login as Admin
+    await context.clearCookies();
+    await page.goto('http://localhost:3000/login');
+    await page.locator('input[name="username"]').fill('admin@fti.ac.id');
+    await page.locator('input[name="password"]').fill('password');
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*dashboard/);
+
+    // POST Kategori via API
+    const response = await page.request.post('http://localhost:3000/api/admin/kategori', {
+      data: { name: `API Kategori Uji ${Date.now()}` }
+    });
+    expect(response.status()).toBe(201);
+    const json = await response.json();
+    expect(json.success).toBe(true);
+    expect(json.message).toContain('Kategori berhasil dibuat');
+    expect(json.data.id).toBeTruthy();
+  });
+
+  test('TC-33: GET daftar dokumen', async ({ page, context }) => {
+    // Login as Admin
+    await context.clearCookies();
+    await page.goto('http://localhost:3000/login');
+    await page.locator('input[name="username"]').fill('admin@fti.ac.id');
+    await page.locator('input[name="password"]').fill('password');
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*dashboard/);
+
+    // Fetch API
+    const response = await page.request.get('http://localhost:3000/api/admin/dokumen');
+    expect(response.status()).toBe(200);
+    const json = await response.json();
+    expect(json.success).toBe(true);
+    expect(Array.isArray(json.data)).toBe(true);
+  });
+
+  test('TC-34: GET detail dokumen', async ({ page, context }) => {
+    // Login as User
+    await context.clearCookies();
+    await page.goto('http://localhost:3000/login');
+    await page.locator('input[name="username"]').fill('2411522007_talitha@gmail.com');
+    await page.locator('input[name="password"]').fill('password');
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*home/);
+
+    // Ambil daftar dokumen publik lewat API
+    const listRes = await page.request.get('http://localhost:3000/api/dokumen');
+    expect(listRes.status()).toBe(200);
+    const listJson = await listRes.json();
+    expect(listJson.success).toBe(true);
+    
+    if (listJson.data.length > 0) {
+      const docId = listJson.data[0].id;
+      // Get detail lewat API
+      const detailRes = await page.request.get(`http://localhost:3000/api/dokumen/${docId}`);
+      expect(detailRes.status()).toBe(200);
+      const detailJson = await detailRes.json();
+      expect(detailJson.success).toBe(true);
+      expect(detailJson.data.dokumen).toBeTruthy();
+    }
+  });
+
+  test('TC-35: Search dokumen API', async ({ page, context }) => {
+    // Login as User
+    await context.clearCookies();
+    await page.goto('http://localhost:3000/login');
+    await page.locator('input[name="username"]').fill('2411522007_talitha@gmail.com');
+    await page.locator('input[name="password"]').fill('password');
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*home/);
+
+    // Ambil daftar dokumen publik lewat API
+    const listRes = await page.request.get('http://localhost:3000/api/dokumen');
+    const listJson = await listRes.json();
+    
+    if (listJson.data.length > 0) {
+      const searchName = listJson.data[0].name;
+      // Cari lewat API
+      const searchRes = await page.request.get(`http://localhost:3000/api/dokumen?search=${encodeURIComponent(searchName)}`);
+      expect(searchRes.status()).toBe(200);
+      const searchJson = await searchRes.json();
+      expect(searchJson.success).toBe(true);
+      expect(searchJson.data.length).toBeGreaterThan(0);
+      expect(searchJson.data[0].name).toBe(searchName);
+    }
+  });
+});
+

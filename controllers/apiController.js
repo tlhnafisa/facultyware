@@ -121,9 +121,29 @@ const userDokumenDetail = async (req, res) => {
     }
 };
 
+// Fitur Baru: Tambah kategori dokumen via API JSON
+const createKategori = async (req, res) => {
+    try {
+        const { name } = req.body;
+        if (!name || name.trim() === '') {
+            return res.status(400).json({ success: false, error: 'Nama kategori tidak boleh kosong!' });
+        }
+        const [lastId] = await db.query('SELECT MAX(id) as maxId FROM document_types');
+        const newId = (lastId[0].maxId || 0) + 1;
+        await db.query(
+            'INSERT INTO document_types (id, name, created_at, updated_at) VALUES (?, ?, NOW(), NOW())',
+            [newId, name.trim()]
+        );
+        res.status(201).json({ success: true, message: 'Kategori berhasil dibuat', data: { id: newId, name: name.trim() } });
+    } catch (err) {
+        res.status(500).json({ success: false, error: err.message });
+    }
+};
+
 module.exports = {
     adminKategori,
     adminDokumen,
     userDokumen,
-    userDokumenDetail
+    userDokumenDetail,
+    createKategori
 };
