@@ -359,3 +359,159 @@ test.describe.serial('C. Pengelolaan User', () => {
     await expect(page).toHaveURL(/.*login/);
   });
 });
+
+// ==========================================
+// D. Dokumen Publish (User)
+// ==========================================
+test.describe.serial('D. Dokumen Publish (User)', () => {
+  const uniqueId = Date.now();
+  const userDocName = `User Dokumen ${uniqueId}`;
+  const userDocNo = `USR-DOC-${uniqueId}`;
+  let userDocId = '';
+
+  test('Persiapan: Tambah & publish dokumen oleh Admin', async ({ page, context }) => {
+    // Login as Admin
+    await context.clearCookies();
+    await page.goto('http://localhost:3000/login');
+    await page.locator('input[name="username"]').fill('admin@fti.ac.id');
+    await page.locator('input[name="password"]').fill('password');
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*dashboard/);
+
+    // Tambah Dokumen
+    await page.goto('http://localhost:3000/admin/dokumen/tambah');
+    await page.locator('input[name="name"]').fill(userDocName);
+    await page.selectOption('select[name="document_type_id"]', { index: 1 });
+    await page.locator('input[name="doc_no"]').fill(userDocNo);
+    await page.selectOption('select[name="scope"]', 'Mahasiswa');
+    
+    // Unggah file
+    await page.setInputFiles('input[name="file"]', {
+      name: 'dokumen_user.txt',
+      mimeType: 'text/plain',
+      buffer: Buffer.from('Konten dokumen untuk user panel.')
+    });
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*\/admin\/dokumen.*/);
+
+    // Cari dokumen untuk mendapatkan ID
+    await page.locator('input[name="search"]').fill(userDocName);
+    await page.locator('button:has-text("Cari")').click();
+    const docRow = page.locator('tr', { hasText: userDocName }).first();
+    await docRow.locator('text=Detail').click();
+    
+    const url = page.url();
+    userDocId = url.split('/').pop();
+
+    // Publish dokumen
+    await page.locator('button:has-text("Publish")').click();
+    await expect(page).toHaveURL(/.*\/admin\/dokumen.*/);
+  });
+
+  test('TC-23: Menampilkan daftar dokumen publish', async ({ page, context }) => {
+    // Login as User
+    await context.clearCookies();
+    await page.goto('http://localhost:3000/login');
+    await page.locator('input[name="username"]').fill('2411522007_talitha@gmail.com');
+    await page.locator('input[name="password"]').fill('password');
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*home/);
+
+    // Pergi ke /dokumen
+    await page.goto('http://localhost:3000/dokumen');
+    const tableBody = page.locator('table tbody');
+    await expect(tableBody).toContainText(userDocName);
+  });
+
+  test('TC-24: Melihat detail dokumen publish', async ({ page, context }) => {
+    // Login as User
+    await context.clearCookies();
+    await page.goto('http://localhost:3000/login');
+    await page.locator('input[name="username"]').fill('2411522007_talitha@gmail.com');
+    await page.locator('input[name="password"]').fill('password');
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*home/);
+
+    // Buka detail
+    await page.goto(`http://localhost:3000/dokumen/${userDocId}`);
+    await expect(page.locator('main')).toContainText(userDocName);
+    await expect(page.locator('main')).toContainText(userDocNo);
+  });
+
+  test('TC-25: Mencari dokumen publish', async ({ page, context }) => {
+    // Login as User
+    await context.clearCookies();
+    await page.goto('http://localhost:3000/login');
+    await page.locator('input[name="username"]').fill('2411522007_talitha@gmail.com');
+    await page.locator('input[name="password"]').fill('password');
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*home/);
+
+    // Cari
+    await page.goto('http://localhost:3000/dokumen');
+    await page.locator('input[name="search"]').fill(userDocName);
+    await page.locator('button:has-text("Cari")').click();
+
+    const tableBody = page.locator('table tbody');
+    await expect(tableBody).toContainText(userDocName);
+  });
+
+  test('TC-26: Filter dokumen publish berdasarkan kategori', async ({ page, context }) => {
+    // Login as User
+    await context.clearCookies();
+    await page.goto('http://localhost:3000/login');
+    await page.locator('input[name="username"]').fill('2411522007_talitha@gmail.com');
+    await page.locator('input[name="password"]').fill('password');
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*home/);
+
+    // Filter
+    await page.goto('http://localhost:3000/dokumen');
+    await page.selectOption('select[name="kategori_id"]', { index: 1 });
+    await page.locator('button:has-text("Cari")').click();
+
+    // Verifikasi URL mengandung kategori_id
+    await expect(page).toHaveURL(/.*kategori_id=.+/);
+  });
+
+  test('TC-27: Download dokumen publish', async ({ page, context }) => {
+    // Login as User
+    await context.clearCookies();
+    await page.goto('http://localhost:3000/login');
+    await page.locator('input[name="username"]').fill('2411522007_talitha@gmail.com');
+    await page.locator('input[name="password"]').fill('password');
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*home/);
+
+    // Buka detail
+    await page.goto(`http://localhost:3000/dokumen/${userDocId}`);
+
+    // Verifikasi tombol unduh ada dan mengarah ke folder uploads
+    const downloadLink = page.locator('a:has-text("Unduh")');
+    await expect(downloadLink).toBeVisible();
+    const href = await downloadLink.getAttribute('href');
+    expect(href).toContain('/uploads/');
+  });
+
+  test('Pembersihan: Hapus dokumen oleh Admin', async ({ page, context }) => {
+    // Login as Admin
+    await context.clearCookies();
+    await page.goto('http://localhost:3000/login');
+    await page.locator('input[name="username"]').fill('admin@fti.ac.id');
+    await page.locator('input[name="password"]').fill('password');
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*dashboard/);
+
+    // Hapus
+    await page.goto('http://localhost:3000/admin/dokumen');
+    await page.locator('input[name="search"]').fill(userDocName);
+    await page.locator('button:has-text("Cari")').click();
+    
+    page.once('dialog', async dialog => {
+      await dialog.accept();
+    });
+    const docRow = page.locator('tr', { hasText: userDocName }).first();
+    await docRow.locator('button:has-text("Hapus")').click();
+  });
+});
+
