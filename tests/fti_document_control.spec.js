@@ -515,3 +515,60 @@ test.describe.serial('D. Dokumen Publish (User)', () => {
   });
 });
 
+// ==========================================
+// E. Export Data (Admin)
+// ==========================================
+test.describe.serial('E. Export Data (Admin)', () => {
+  test.beforeEach(async ({ page, context }) => {
+    // Bersihkan semua cookie sesi lama agar form login selalu tampil
+    await context.clearCookies();
+    await page.goto('http://localhost:3000/login');
+    await page.locator('input[name="username"]').fill('admin@fti.ac.id');
+    await page.locator('input[name="password"]').fill('password');
+    await page.locator('button[type="submit"]').click();
+    await expect(page).toHaveURL(/.*dashboard/);
+  });
+
+  test('TC-28: Export data dokumen ke Excel', async ({ page }) => {
+    await page.goto('http://localhost:3000/admin/dokumen');
+    
+    // Klik Export Excel dan tunggu download event
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      page.locator('a:has-text("Export Excel")').click()
+    ]);
+
+    expect(download.suggestedFilename()).toContain('.xlsx');
+    const path = await download.path();
+    expect(path).toBeTruthy();
+  });
+
+  test('TC-29: Export data dokumen ke PDF', async ({ page }) => {
+    await page.goto('http://localhost:3000/admin/dokumen');
+
+    // Klik Export PDF dan tunggu download event
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      page.locator('a:has-text("Export PDF")').click()
+    ]);
+
+    expect(download.suggestedFilename()).toContain('.pdf');
+    const path = await download.path();
+    expect(path).toBeTruthy();
+  });
+
+  test('TC-30: Export statistik dokumen', async ({ page }) => {
+    await page.goto('http://localhost:3000/admin/dashboard');
+
+    // Klik Export Statistik Excel dan tunggu download event
+    const [download] = await Promise.all([
+      page.waitForEvent('download'),
+      page.locator('a:has-text("Export Statistik Excel")').click()
+    ]);
+
+    expect(download.suggestedFilename()).toContain('.xlsx');
+    const path = await download.path();
+    expect(path).toBeTruthy();
+  });
+});
+
