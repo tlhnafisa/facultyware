@@ -369,7 +369,7 @@ test.describe.serial('D. Dokumen Publish (User)', () => {
   const userDocNo = `USR-DOC-${uniqueId}`;
   let userDocId = '';
 
-  test('Persiapan: Tambah & publish dokumen oleh Admin', async ({ page, context }) => {
+  test('TC-22a: Persiapan - Tambah & publish dokumen oleh Admin', async ({ page, context }) => {
     // Login as Admin
     await context.clearCookies();
     await page.goto('http://localhost:3000/login');
@@ -493,7 +493,7 @@ test.describe.serial('D. Dokumen Publish (User)', () => {
     expect(href).toContain('/uploads/');
   });
 
-  test('Pembersihan: Hapus dokumen oleh Admin', async ({ page, context }) => {
+  test('TC-27a: Pembersihan - Hapus dokumen oleh Admin', async ({ page, context }) => {
     // Login as Admin
     await context.clearCookies();
     await page.goto('http://localhost:3000/login');
